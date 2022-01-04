@@ -1,4 +1,5 @@
 # vue-head
+Vue application example using SSR and Vue Head to generate site metatags.
 
 ## Project setup
 ```

@@ -1,11 +1,14 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
+import {
+  createMemoryHistory,
+  createRouter,
+  createWebHistory,
+} from "vue-router";
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
   },
   {
     path: "/about",
@@ -18,8 +21,12 @@ const routes = [
   },
 ];
 
+const isServer = typeof window === "undefined";
+
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: isServer
+    ? createMemoryHistory()
+    : createWebHistory(process.env.BASE_URL),
   routes,
 });
 

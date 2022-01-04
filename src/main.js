@@ -1,6 +1,13 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import buildApp from "@/app";
 
-createApp(App).use(store).use(router).mount("#app");
+const { app, router, store } = buildApp();
+
+// initialize the store with server-initialized state.
+// the state is determined during SSR and inlined in the page markup.
+if (window && window.__INITIAL_STATE__) {
+  store.replaceState(window.__INITIAL_STATE__);
+}
+
+router.isReady().then(() => {
+  app.mount("#app", true);
+});
